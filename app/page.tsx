@@ -127,9 +127,48 @@ export default function LuminaRoom() {
         .menu-card-premium{box-shadow:0 0 22px rgba(212,175,55,.22),0 4px 20px rgba(0,0,0,.5);}
         .menu-card img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
         .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
-        .cs-badge{display:inline-block;font-size:9px;padding:2px 7px;background:linear-gradient(135deg,var(--tc),var(--tcd));color:#fff;border-radius:8px;letter-spacing:0.05em;font-weight:600;}
 
         .msg-section{background:linear-gradient(135deg,var(--tcd) 0%,var(--tc) 100%);text-align:center;}
+
+        .line-banner-wrap{padding:0 24px 70px;background:linear-gradient(180deg,#081030,#0a0f2e);}
+        .line-banner{
+          position:relative;max-width:900px;margin:0 auto;overflow:hidden;
+          border-radius:16px;border:1px solid rgba(212,175,55,0.5);
+          background:
+            radial-gradient(ellipse 70% 60% at 15% 20%, rgba(109,76,181,0.3), transparent),
+            radial-gradient(ellipse 60% 50% at 90% 85%, rgba(212,175,55,0.08), transparent),
+            linear-gradient(90deg,#070913 0%,#0F132A 50%,#070913 100%);
+          padding:44px 32px;text-align:center;
+          box-shadow:0 0 40px rgba(212,175,55,0.08);
+        }
+        .line-banner::before{
+          content:'';position:absolute;inset:0;pointer-events:none;
+          width:2px;height:2px;border-radius:50%;
+          box-shadow:
+            8% 20% 0 0 rgba(246,240,250,.7), 18% 70% 1px 0 rgba(212,175,55,.5),
+            30% 15% 0 0 rgba(246,240,250,.5), 45% 80% 0 0 rgba(246,240,250,.6),
+            60% 25% 1px 0 rgba(212,175,55,.5), 75% 65% 0 0 rgba(246,240,250,.5),
+            88% 20% 0 0 rgba(246,240,250,.6), 95% 75% 1px 0 rgba(212,175,55,.4);
+        }
+        .line-banner-corner{position:absolute;font-size:14px;color:var(--gold);opacity:0.6;}
+        .line-banner-corner.tl{top:12px;left:14px;}
+        .line-banner-corner.tr{top:12px;right:14px;}
+        .line-banner-corner.bl{bottom:12px;left:14px;}
+        .line-banner-corner.br{bottom:12px;right:14px;}
+        .line-eyebrow{position:relative;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.35em;color:var(--gold);margin-bottom:14px;}
+        .line-catch{position:relative;font-size:clamp(19px,3vw,26px);color:var(--cream);letter-spacing:0.04em;margin-bottom:8px;font-weight:600;}
+        .line-sub{position:relative;font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;color:rgba(212,175,55,0.8);margin-bottom:18px;}
+        .line-lead{position:relative;max-width:520px;margin:0 auto 28px;font-size:13px;line-height:1.9;color:rgba(246,240,250,0.65);}
+        .line-btn{
+          position:relative;display:inline-flex;align-items:center;gap:8px;
+          padding:15px 34px;border-radius:999px;text-decoration:none;
+          font-size:13.5px;font-weight:600;letter-spacing:0.06em;color:var(--cream);
+          background:linear-gradient(120deg,#3D2566,#6D4CB5 55%,#8a6a20);
+          border:1px solid rgba(212,175,55,0.6);
+          box-shadow:0 0 24px rgba(212,175,55,0.25);
+          transition:box-shadow .3s ease, transform .3s ease;
+        }
+        .line-btn:hover{box-shadow:0 0 34px rgba(212,175,55,0.45);transform:translateY(-2px);}
         .msg-en{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.4em;color:rgba(255,255,255,0.6);margin-bottom:24px;}
         .msg-box{max-width:640px;margin:0 auto;background:rgba(255,255,255,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:20px;padding:48px 40px;backdrop-filter:blur(8px);}
         .msg-char-name{font-size:12px;color:rgba(255,255,255,0.7);letter-spacing:0.2em;margin-bottom:24px;}
@@ -137,14 +176,6 @@ export default function LuminaRoom() {
         .msg-date{font-size:10px;color:rgba(255,255,255,0.45);margin-top:24px;letter-spacing:0.2em;}
 
         .quiz-section{background:linear-gradient(180deg,#0c0632,var(--indigo));}
-
-        .related-section{background:var(--indigo);}
-        .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;}
-        .related-card{border:1px solid rgba(212,175,55,0.2);border-radius:14px;padding:24px 18px;text-decoration:none;color:inherit;transition:all 0.25s;display:block;background:rgba(255,255,255,0.03);opacity:0.75;}
-        .related-card:hover{border-color:var(--gold);opacity:1;}
-        .related-icon{font-size:28px;margin-bottom:10px;display:block;}
-        .related-label{font-size:10px;color:var(--gold);letter-spacing:0.2em;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
-        .related-title{font-size:14px;color:var(--cream);font-weight:500;}
 
         .room-footer{text-align:center;padding:36px 24px 44px;border-top:1px solid rgba(212,175,55,0.12);background:var(--indigo);}
         .footer-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:14px;}
@@ -243,6 +274,24 @@ export default function LuminaRoom() {
         </div>
       </section>
 
+      <div className="line-banner-wrap">
+        <div className="line-banner">
+          <span className="line-banner-corner tl">✦</span>
+          <span className="line-banner-corner tr">✦</span>
+          <span className="line-banner-corner bl">✦</span>
+          <span className="line-banner-corner br">✦</span>
+          <p className="line-eyebrow">✦ OFFICIAL LINE ✦</p>
+          <h3 className="line-catch">星々の囁きを、あなたの日常に。</h3>
+          <p className="line-sub">Twinkle Star Oracle 公式LINEアカウント</p>
+          <p className="line-lead">
+            今なら友だち追加で、あなたの運命をさらに深く読み解く【今月の星の導きシート】＆【有料鑑定で使える特別招待クーポン】をプレゼント。
+          </p>
+          <a href="https://lin.ee/REPLACE_WITH_LINE_URL" className="line-btn">
+            💬 LINEで神秘のメッセージを受け取る →
+          </a>
+        </div>
+      </div>
+
       <div className="msg-section">
         <p className="msg-en">TODAY&apos;S MESSAGE FROM LUMINA</p>
         <div className="msg-box">
@@ -258,33 +307,6 @@ export default function LuminaRoom() {
           <h2 className="sec-jp">ルミナに、3つだけ問いかけられてください</h2>
         </div>
         <LuminaQuiz />
-      </section>
-
-      <section className="related-section">
-        <div className="sec-inner">
-          <div className="sec-label">
-            <p className="sec-en">RELATED CONTENTS</p>
-            <h2 className="sec-jp">関連コンテンツ</h2>
-            <div className="sec-divider" />
-          </div>
-          <div className="related-grid">
-            <a href="https://twinkle-lab.jp/coming-soon" className="related-card">
-              <span className="related-icon">📝</span>
-              <div className="related-label">NOTE<span className="cs-badge">近日公開</span></div>
-              <div className="related-title">Luminaのnote記事</div>
-            </a>
-            <a href="https://twinkle-lab.jp/coming-soon" className="related-card">
-              <span className="related-icon">📚</span>
-              <div className="related-label">KINDLE<span className="cs-badge">近日公開</span></div>
-              <div className="related-title">Kindle本を見る</div>
-            </a>
-            <a href="https://twinkle-lab.jp/coming-soon" className="related-card">
-              <span className="related-icon">📄</span>
-              <div className="related-label">ARTICLE<span className="cs-badge">近日公開</span></div>
-              <div className="related-title">タロット入門ガイド</div>
-            </a>
-          </div>
-        </div>
       </section>
 
       <footer className="room-footer">
