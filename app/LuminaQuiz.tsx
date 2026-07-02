@@ -35,8 +35,10 @@ const QUESTIONS: Question[] = [
   },
 ]
 
+type Card = { img: string; name: string; label: string }
+
 type Reading = {
-  card: string
+  cards: Card[]
   message: string
   recTitle: string
   recDesc: string
@@ -54,7 +56,7 @@ function buildReading(answers: string[]): Reading {
     choice: '二つの道の間で揺れるあなたの心。けれど星々は、あなたがすでに答えを知っていることを教えてくれます。',
   }
 
-  const recMap: Record<string, Omit<Reading, 'card' | 'message'>> = {
+  const recMap: Record<string, Omit<Reading, 'cards' | 'message'>> = {
     love: {
       recTitle: 'AI相性診断',
       recDesc: 'あの人との本音と、二人の運命の行方をルミナが読み解きます',
@@ -81,19 +83,34 @@ function buildReading(answers: string[]): Reading {
     },
   }
 
-  const cards = ['✦ 星の扉', '☾ 静かな月', '✧ 導きの光', '⋆ 遠い記憶']
-  const card = cards[(theme.length + mood.length + depth.length) % cards.length]
+  // 通常メニューは1枚、Premium(¥3,980)は「過去・現在・未来」の3枚スプレッド
+  const cardMap: Record<string, Card[]> = {
+    love: [{ img: 'card_06_lovers.jpg', name: '恋人', label: '' }],
+    self: [{ img: 'card_17_star.jpg', name: '星', label: '' }],
+    fortune: [
+      { img: 'card_18_moon.jpg', name: '月', label: '過去' },
+      { img: 'card_10_wheel-of-fortune.jpg', name: '運命の輪', label: '現在' },
+      { img: 'card_19_sun.jpg', name: '太陽', label: '未来' },
+    ],
+    choice: [
+      { img: 'card_12_hanged-man.jpg', name: '吊るされた男', label: '過去' },
+      { img: 'card_09_hermit.jpg', name: '隠者', label: '現在' },
+      { img: 'card_21_world.jpg', name: '世界', label: '未来' },
+    ],
+  }
 
   const rec = recMap[theme] ?? recMap.fortune
   const message = messages[theme] ?? messages.fortune
+  const cards = cardMap[theme] ?? cardMap.fortune
 
-  return { card, message, ...rec }
+  return { cards, message, ...rec }
 }
 
 export default function LuminaQuiz() {
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<string[]>([])
   const [reading, setReading] = useState<Reading | null>(null)
+  const [flippedCount, setFlippedCount] = useState(0)
 
   function choose(val: string) {
     const next = [...answers, val]
@@ -101,7 +118,12 @@ export default function LuminaQuiz() {
       setAnswers(next)
       setStep(step + 1)
     } else {
-      setReading(buildReading(next))
+      const result = buildReading(next)
+      setFlippedCount(0)
+      setReading(result)
+      result.cards.forEach((_, i) => {
+        setTimeout(() => setFlippedCount((c) => Math.max(c, i + 1)), 500 + i * 550)
+      })
     }
   }
 
@@ -109,6 +131,7 @@ export default function LuminaQuiz() {
     setStep(0)
     setAnswers([])
     setReading(null)
+    setFlippedCount(0)
   }
 
   const progress = reading ? 100 : Math.round((step / QUESTIONS.length) * 100)
@@ -130,10 +153,21 @@ export default function LuminaQuiz() {
         .step-count{font-size:11px;color:rgba(246,240,250,0.4);text-align:center;margin-top:14px;letter-spacing:0.08em;}
 
         .reveal{text-align:center;padding:8px 0 20px;}
-        .reveal-card{width:88px;height:120px;margin:0 auto 20px;border-radius:10px;background:linear-gradient(160deg,#30134B,#081030);border:1px solid #D4AF37;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 0 30px rgba(212,175,55,0.35);animation:cardglow 2.4s ease-in-out infinite;}
-        @keyframes cardglow{0%,100%{box-shadow:0 0 20px rgba(212,175,55,0.25);}50%{box-shadow:0 0 36px rgba(212,175,55,0.5);}}
+        .reveal-cards{display:flex;justify-content:center;gap:14px;margin-bottom:10px;flex-wrap:wrap;}
+        .reveal-card-item{display:flex;flex-direction:column;align-items:center;}
+        .reveal-card-scene{width:96px;height:160px;perspective:1000px;}
+        .reveal-cards.single .reveal-card-scene{width:130px;height:220px;}
+        .reveal-card{position:relative;width:100%;height:100%;transition:transform 0.9s cubic-bezier(0.4,0.2,0.2,1);transform-style:preserve-3d;filter:drop-shadow(0 0 20px rgba(212,175,55,0.35));}
+        .reveal-card.is-flipped{transform:rotateY(180deg);}
+        .reveal-card-face{position:absolute;inset:0;border-radius:10px;overflow:hidden;backface-visibility:hidden;border:1px solid rgba(212,175,55,0.5);}
+        .reveal-card-face img{width:100%;height:100%;object-fit:cover;display:block;}
+        .reveal-card-back{transform:rotateY(0deg);}
+        .reveal-card-front{transform:rotateY(180deg);}
+        .reveal-card-label{font-size:9px;letter-spacing:0.2em;color:rgba(246,240,250,0.4);margin-top:8px;}
+        .reveal-card-name{font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:0.1em;color:#D4AF37;margin-top:3px;opacity:0;transition:opacity 0.6s ease;}
+        .reveal-card-name.show{opacity:1;}
         .reveal-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.25em;color:#D4AF37;margin-bottom:22px;}
-        .reveal-msg{font-size:15px;line-height:2;color:#F6F0FA;margin-bottom:28px;padding:0 6px;}
+        .reveal-msg{font-size:15px;line-height:2;color:#F6F0FA;margin:24px 0 28px;padding:0 6px;}
 
         .rec-card{background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.4);border-radius:16px;padding:22px 20px;margin-bottom:14px;}
         .rec-eyebrow{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.25em;color:rgba(246,240,250,0.5);margin-bottom:8px;}
@@ -167,8 +201,32 @@ export default function LuminaQuiz() {
 
       {reading && (
         <div className="reveal">
-          <div className="reveal-label">✦ YOUR CARD ✦</div>
-          <div className="reveal-card">{reading.card.split(' ')[0]}</div>
+          <div className="reveal-label">
+            ✦ {reading.cards.length > 1 ? 'YOUR 3 CARDS' : 'YOUR CARD'} ✦
+          </div>
+          <div className={`reveal-cards${reading.cards.length === 1 ? ' single' : ''}`}>
+            {reading.cards.map((c, i) => {
+              const isFlipped = flippedCount > i
+              return (
+                <div className="reveal-card-item" key={c.img}>
+                  <div className="reveal-card-scene">
+                    <div className={`reveal-card${isFlipped ? ' is-flipped' : ''}`}>
+                      <div className="reveal-card-face reveal-card-back">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="/tarot/card_back.jpg" alt="タロットカードの裏面" />
+                      </div>
+                      <div className="reveal-card-face reveal-card-front">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={`/tarot/${c.img}`} alt={c.name} />
+                      </div>
+                    </div>
+                  </div>
+                  {c.label && <div className="reveal-card-label">{c.label}</div>}
+                  <div className={`reveal-card-name${isFlipped ? ' show' : ''}`}>{c.name}</div>
+                </div>
+              )
+            })}
+          </div>
           <p className="reveal-msg">{reading.message}</p>
 
           <div className="rec-card">
