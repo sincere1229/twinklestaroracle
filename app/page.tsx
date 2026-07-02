@@ -193,27 +193,34 @@ export default function LuminaRoom() {
             <h2 className="sec-jp">鑑定メニュー</h2>
             <div className="sec-divider" />
           </div>
-          <div className="menu-grid">
+          <div className="menu-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
             <a href="#quiz" className="menu-card">
               <span className="menu-icon">🃏</span>
               <div className="menu-title">無料タロット占い</div>
-              <p className="menu-desc">タップするだけ、2秒で始まる無料鑑定</p>
+              <p className="menu-desc">タップするだけ、2秒で始まる神秘のメッセージ</p>
               <div className="menu-price">無料</div>
               <span className="menu-arrow">今すぐ占う →</span>
+            </a>
+            <a href="https://twinkle-lab.jp/star?reading=destiny&from=tso" className="menu-card">
+              <span className="menu-icon">✨</span>
+              <div className="menu-title">魂の才能・使命診断</div>
+              <p className="menu-desc">数秘術で紐解く、あなたが生まれてきた本当の意味</p>
+              <div className="menu-price">一部無料 / 詳細 ¥980</div>
+              <span className="menu-arrow">使命を知る →</span>
             </a>
             <a href="https://twinkle-lab.jp/star?reading=compatibility&from=tso" className="menu-card">
               <span className="menu-icon">💞</span>
               <div className="menu-title">AI相性診断</div>
-              <p className="menu-desc">あの人の本音と二人の運命の行方を鑑定</p>
+              <p className="menu-desc">あの人の本音と、二人の運命が辿る1年後のストーリー</p>
               <div className="menu-price">¥980</div>
-              <span className="menu-arrow">鑑定してもらう →</span>
+              <span className="menu-arrow">二人の運命を詠む →</span>
             </a>
             <a href="https://twinkle-lab.jp/star?reading=premium&from=tso" className="menu-card">
               <span className="menu-icon">💫</span>
               <div className="menu-title">Premium AI総合鑑定</div>
-              <p className="menu-desc">タロット・数秘・ホロスコープの完全解析</p>
+              <p className="menu-desc">タロット・数秘・ホロスコープを統合した完全解析レポート</p>
               <div className="menu-price">¥3,980</div>
-              <span className="menu-arrow">鑑定してもらう →</span>
+              <span className="menu-arrow">完全版を受ける →</span>
             </a>
           </div>
         </div>
