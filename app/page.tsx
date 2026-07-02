@@ -92,16 +92,41 @@ export default function LuminaRoom() {
         .like-tag{font-size:11px;padding:4px 12px;border-radius:20px;background:var(--tcl);color:var(--cream);border:1px solid rgba(212,175,55,0.3);}
         .fav-word{font-size:16px;color:var(--cream);font-weight:500;font-style:italic;letter-spacing:0.08em;padding:16px 20px;border-left:3px solid var(--gold);background:var(--tcl);border-radius:0 8px 8px 0;margin-top:8px;}
 
-        .menu-section{background:#0a0f1e;}
-        .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-        @media(max-width:720px){.menu-grid{grid-template-columns:1fr;}}
-        .menu-card{display:block;text-decoration:none;color:inherit;border-radius:16px;overflow:hidden;border:1px solid rgba(212,175,55,0.25);background:#111827;padding:22px 20px;transition:transform 0.25s,border-color 0.25s;}
-        .menu-card:hover{transform:translateY(-4px);border-color:var(--gold);}
-        .menu-icon{font-size:26px;margin-bottom:10px;display:block;}
-        .menu-title{font-size:14.5px;font-weight:700;color:var(--cream);margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-        .menu-desc{font-size:11.5px;color:rgba(246,240,250,0.55);line-height:1.6;margin-bottom:14px;}
-        .menu-price{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);margin-bottom:6px;}
-        .menu-arrow{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--tc);}
+        .menu-section{
+          position:relative;
+          background:
+            linear-gradient(115deg, transparent 30%, rgba(109,76,181,0.12) 48%, rgba(212,175,55,0.05) 52%, transparent 70%),
+            radial-gradient(ellipse 60% 40% at 20% 10%, rgba(109,76,181,0.25), transparent),
+            radial-gradient(ellipse 50% 35% at 85% 90%, rgba(48,19,75,0.5), transparent),
+            linear-gradient(180deg,#081030,#0a0f2e 50%,#081030);
+          overflow:hidden;
+        }
+        .menu-section::before{
+          content:'';position:absolute;top:0;left:0;pointer-events:none;
+          width:2px;height:2px;border-radius:50%;
+          box-shadow:
+            10vw 8vh 0 0 rgba(246,240,250,.8), 25vw 20vh 1px 0 rgba(212,175,55,.6),
+            40vw 5vh 0 0 rgba(246,240,250,.5), 60vw 15vh 1px 0 rgba(246,240,250,.7),
+            75vw 28vh 0 0 rgba(212,175,55,.5), 88vw 10vh 0 0 rgba(246,240,250,.6),
+            15vw 38vh 1px 0 rgba(246,240,250,.4), 50vw 42vh 0 0 rgba(246,240,250,.6),
+            82vw 45vh 1px 0 rgba(109,76,181,.8), 33vw 52vh 0 0 rgba(246,240,250,.5),
+            5vw 25vh 0 0 rgba(246,240,250,.5), 68vw 35vh 1px 0 rgba(212,175,55,.4),
+            93vw 30vh 0 0 rgba(246,240,250,.5), 45vw 28vh 0 0 rgba(246,240,250,.4);
+          animation:twinkle 4s ease-in-out infinite;
+        }
+        @keyframes twinkle{0%,100%{opacity:0.5;}50%{opacity:1;}}
+        .menu-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+        @media(max-width:900px){.menu-grid{grid-template-columns:repeat(2,1fr) !important;gap:12px;}}
+        .menu-card{
+          display:block;border-radius:18px;overflow:hidden;
+          box-shadow:0 4px 20px rgba(0,0,0,.5);
+          transition:transform .3s ease, box-shadow .3s ease;
+          line-height:0;
+        }
+        .menu-card:hover{transform:translateY(-6px);box-shadow:0 0 26px rgba(212,175,55,.3),0 20px 40px rgba(0,0,0,.55);}
+        .menu-card-premium{box-shadow:0 0 22px rgba(212,175,55,.22),0 4px 20px rgba(0,0,0,.5);}
+        .menu-card img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
+        .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
         .cs-badge{display:inline-block;font-size:9px;padding:2px 7px;background:linear-gradient(135deg,var(--tc),var(--tcd));color:#fff;border-radius:8px;letter-spacing:0.05em;font-weight:600;}
 
         .msg-section{background:linear-gradient(135deg,var(--tcd) 0%,var(--tc) 100%);text-align:center;}
@@ -193,34 +218,26 @@ export default function LuminaRoom() {
             <h2 className="sec-jp">鑑定メニュー</h2>
             <div className="sec-divider" />
           </div>
-          <div className="menu-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+          <div className="menu-grid">
             <a href="#quiz" className="menu-card">
-              <span className="menu-icon">🃏</span>
-              <div className="menu-title">無料タロット占い</div>
-              <p className="menu-desc">タップするだけ、2秒で始まる神秘のメッセージ</p>
-              <div className="menu-price">無料</div>
-              <span className="menu-arrow">今すぐ占う →</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/menu/tso-menu-1.jpg" alt="無料タロット占い。タップするだけ、2秒で始まる神秘のメッセージ。無料。今すぐ占う。" />
+              <span className="sr-only">無料タロット占いを今すぐ占う</span>
             </a>
             <a href="https://twinkle-lab.jp/star?reading=destiny&from=tso" className="menu-card">
-              <span className="menu-icon">✨</span>
-              <div className="menu-title">魂の才能・使命診断</div>
-              <p className="menu-desc">数秘術で紐解く、あなたが生まれてきた本当の意味</p>
-              <div className="menu-price">一部無料 / 詳細 ¥980</div>
-              <span className="menu-arrow">使命を知る →</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/menu/tso-menu-2.jpg" alt="魂の才能・使命診断。数秘術で紐解く、あなたが生まれてきた本当の意味。一部無料、詳細¥980。使命を知る。" />
+              <span className="sr-only">魂の才能・使命診断で使命を知る</span>
             </a>
             <a href="https://twinkle-lab.jp/star?reading=compatibility&from=tso" className="menu-card">
-              <span className="menu-icon">💞</span>
-              <div className="menu-title">AI相性診断</div>
-              <p className="menu-desc">あの人の本音と、二人の運命が辿る1年後のストーリー</p>
-              <div className="menu-price">¥980</div>
-              <span className="menu-arrow">二人の運命を詠む →</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/menu/tso-menu-3.jpg" alt="AI相性診断。あの人の本音と、二人の運命が重なり合う愛のストーリー。¥980。二人の運命を読む。" />
+              <span className="sr-only">AI相性診断で二人の運命を読む</span>
             </a>
-            <a href="https://twinkle-lab.jp/star?reading=premium&from=tso" className="menu-card">
-              <span className="menu-icon">💫</span>
-              <div className="menu-title">Premium AI総合鑑定</div>
-              <p className="menu-desc">タロット・数秘・ホロスコープを統合した完全解析レポート</p>
-              <div className="menu-price">¥3,980</div>
-              <span className="menu-arrow">完全版を受ける →</span>
+            <a href="https://twinkle-lab.jp/star?reading=premium&from=tso" className="menu-card menu-card-premium">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/menu/tso-menu-4.jpg" alt="Premium AI総合鑑定。タロット・数秘・ホロスコープを融合した完全解析レポート。¥3,980。完全版を受ける。" />
+              <span className="sr-only">Premium AI総合鑑定を受ける</span>
             </a>
           </div>
         </div>
